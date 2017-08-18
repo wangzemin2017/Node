@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>iMusic首页</title>
+	<style>
+		.container{
+			width: 800px;
+			margin: 50px auto;
+		}
+		table{
+			border-collapse: collapse;
+			text-align: center;
+		}
+		table th,
+		table td{
+			border: 1px solid #ccc;
+			padding: 5px 20px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<a href="/add">添加歌曲</a>
+		<table>
+			<thead>
+				<tr>
+					<th>编号</th>
+					<th>歌曲</th>
+					<th>歌手</th>
+					<th>高品质</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% imusicList.forEach(item => { %>
+					<tr>
+						<td><%= item.id %></td>
+						<td><%= item.song %></td>
+						<td><%= item.singer %></td>
+						<td>
+						<% if(item.isHighQ){ %>
+							<input type="radio" checked value='1'>是
+							<input type="radio" value='0'>否
+						<% }else{ %>
+							<input type="radio" value='1'>是
+							<input type="radio" checked value='0'>否
+						<% } %>
+						</td>
+						<td>
+							<a href="/edit/<%= item.id %>">编辑</a>
+							<a href="javascript:deleteMusic('/delete/<%= item.id %>');">删除</a>
+						</td>
+					</tr>
+				<% }) %>
+			</tbody>
+		</table>
+	</div>
+	<script>
+		function deleteMusic(url){
+			if(!confirm("你确定删除吗？")){
+				return;
+			}
+			var xhr = new XMLHttpRequest();
+			xhr.open('get', url);
+			xhr.setRequestHeader('Content-Type', 'text/html');
+			xhr.send(null);
+			xhr.onreadystatechange = function(){
+				if(xhr.readyState == 4 && xhr.status == 200){
+					var resultObj = JSON.parse(xhr.responseText);
+					if('1' === resultObj.code){
+						window.location.reload('/');
+					}else if('0' === resultObj.code){
+						alert("删除失败！");
+					}
+				}
+			}
+		}
+	</script>
+</body>
+</html>

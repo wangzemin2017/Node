@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>iMusic首页</title>
+	<style>
+		.container{
+			width: 350px;
+			margin: 50px auto;
+			border: 1px solid #ccc;
+			padding-top: 10px;
+		}
+		.box{
+			text-align: center;
+			height: 30px;
+			margin-bottom: 5px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<form action="/edit/<%= musicInfo.id%>" method="post">
+			<div class="box">
+				<label for="">编号：</label><input type="text" name="id" disabled value="<%= musicInfo.id%>">
+			</div>
+			<div class="box">
+				<label for="">歌曲：</label><input type="text" name="song" value="<%= musicInfo.song%>">
+			</div>
+			<div class="box">
+				<label for="">歌手：</label><input type="text" name="singer" value="<%= musicInfo.singer%>">
+			</div>
+			<div class="box">
+				<label for="">高品质：</label>
+				<% if(musicInfo.isHighQ){%>
+					<input type="radio" name="isHighQ" checked value='1'>是
+					<input type="radio" name="isHighQ" value='0'>否
+				<% }else{ %>
+					<input type="radio" name="isHighQ" value='1'>是
+					<input type="radio" name="isHighQ" checked value='0'>否
+				<% } %>
+			</div>
+			<div class="box">
+				<input type="submit" value="确定修改">
+			</div>
+		</form>		
+	</div>
+</body>
+</html>
